@@ -1,3 +1,6 @@
+PRAGMA foreign_keys=ON;
+/*BEGIN TRANSACTION;*/
+
 DROP TABLE IF EXISTS Coach;
 CREATE TABLE Coach(
 	CID INTEGER PRIMARY KEY,
@@ -14,14 +17,14 @@ CREATE TABLE Groom(
 DROP TABLE IF EXISTS Sponsor;
 CREATE TABLE Sponsor(
 	SID INTEGER PRIMARY KEY,
-	Job TEXT,
-	NIF INTEGER UNIQUE CHECK (length(NIF) = 9)
+	Job TEXT NOT NULL,
+	NIF INTEGER UNIQUE NOT NULL CHECK (length(NIF) = 9)
 );
 DROP TABLE IF EXISTS Vet;
 CREATE TABLE Vet(
 	VID INTEGER PRIMARY KEY,
 	VName TEXT NOT NULL,
-	PhoneNumber INTEGER UNIQUE CHECK (length(NIF) = 9),
+	PhoneNumber INTEGER UNIQUE NOT NULL CHECK (length(PhoneNumber) = 9),
 	AppointementCost REAL NOT NULL CHECK (AppointementCost >= 0)
 );
 DROP TABLE IF EXISTS Club;
@@ -33,9 +36,9 @@ DROP TABLE IF EXISTS Stable;
 CREATE TABLE Stable(
 	STID INTEGER PRIMARY KEY,
 	InaugurationYear INTEGER NOT NULL CHECK (InaugurationYear > 0),
-	NoHorses INTEGER NOT NULL CHECK (NoHorses > 0),
-	NoPractitioners INTEGER NOT NULL CHECK (NoPractitioners > 0),
-	NoEmployees INTEGER NOT NULL CHECK (NoEmployees > 0),
+	NoHorses INTEGER NOT NULL CHECK (NoHorses >= 0),
+	NoPractitioners INTEGER NOT NULL CHECK (NoPractitioners >= 0),
+	NoEmployees INTEGER NOT NULL CHECK (NoEmployees >= 0),
 	Area REAL NOT NULL CHECK (Area > 0), 
 	CName TEXT REFERENCES Club
 );
@@ -51,117 +54,121 @@ CREATE TABLE Team(
 DROP TABLE IF EXISTS Rider;
 CREATE TABLE Rider(
 	RiderID INTEGER PRIMARY KEY,
-	RName TEXT,
-	Country TEXT, 
+	RName TEXT NOT NULL,
+	Country TEXT NOT NULL, 
 	NoFederated INTEGER UNIQUE NOT NULL CHECK (NoFederated > 0),
 	BirthDate TEXT NOT NULL,
 	AmountGain INTEGER NOT NULL CHECK(AmountGain >= 0),
 	TotalPoints INTEGER NOT NULL CHECK (TotalPoints >= 0),
 	CoachID INTEGER REFERENCES Coach,
-	VetID INTEGER REFERENCES Vet NOT NULL,
-	GroomID INTEGER REFERENCES Groom NOT NULL, 
-	StableID INTEGER REFERENCES Stable NOT NULL, 
-	TeamID INTEGER REFERENCES Team
+	VetID INTEGER NOT NULL REFERENCES Vet ON DELETE CASCADE ON UPDATE CASCADE,
+	GroomID INTEGER NOT NULL REFERENCES Groom  ON DELETE CASCADE  ON UPDATE CASCADE,
+	StableID INTEGER NOT NULL REFERENCES Stable  ON DELETE CASCADE ON UPDATE CASCADE, 
+	TeamID INTEGER REFERENCES Team ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Sponsors;
 CREATE TABLE Sponsors(
-	RiderID INTEGER REFERENCES Rider,
-	SponsorID INTEGER REFERENCES Sponsor,
+	RiderID INTEGER REFERENCES Rider ON DELETE CASCADE ON UPDATE CASCADE,
+	SponsorID INTEGER REFERENCES Sponsor ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY(RiderID, SponsorID)
 );
 
 DROP TABLE IF EXISTS Horse;
 CREATE TABLE Horse(
 	HorseID INTEGER PRIMARY KEY,
-	BirthDate TEXT,
-	Breed TEXT,
-	Gender TEXT CHECK (Gender = "Male" OR Gender = "Female"), 
-	CoatColor TEXT CHECK (CoatColor = "Gray" OR CoatColor = "Bay" OR CoatColor = "Buckskin" OR CoatColor = "Brown" OR CoatColor = "Black" OR CoatColor = "Dun" OR CoatColor = "Roan" OR CoatColor = "Palomino" OR CoatColor = "Chestnut" OR CoatColor = "Pinto" OR CoatColor = "Paint"),
-	RiderID INTEGER REFERENCES Rider NOT NULL
+	BirthDate TEXT NOT NULL,
+	Breed TEXT NOT NULL,
+	Gender TEXT NOT NULL CHECK (Gender = "Male" OR Gender = "Female"), 
+	CoatColor TEXT NOT NULL CHECK (CoatColor = "Gray" OR CoatColor = "Bay" OR CoatColor = "Buckskin" OR CoatColor = "Brown" OR CoatColor = "Black" OR CoatColor = "Dun" OR CoatColor = "Roan" OR CoatColor = "Palomino" OR CoatColor = "Chestnut" OR CoatColor = "Pinto" OR CoatColor = "Paint"),
+	RiderID INTEGER NOT NULL REFERENCES Rider ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Participation;
 CREATE TABLE Participation(
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Year > 0),
+	DateTime TEXT REFERENCES Class,
+	Place INTEGER CHECK (Place > 0),
 	Points INTEGER NOT NULL CHECK(Points >= 0), 
-	PTime REAL NOT NULL CHECK(PTime > 0), 
-	FOREIGN KEY(Date, City, Year) REFERENCES Class,
-	PRIMARY KEY(Date, City, Year, Place)
+	PTime REAL CHECK(PTime >= 0),
+	PRIMARY KEY(DateTime, Place)
 );
 
 DROP TABLE IF EXISTS IndividualParticipation;
 CREATE TABLE IndividualParticipation(
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Place > 0),
-	RiderID INTEGER REFERENCES Rider NOT NULL,
-	HorseID INTEGER REFERENCES Horse NOT NULL,
-	FOREIGN KEY(Date, City, Year, Place) REFERENCES Participation,
-	PRIMARY KEY(Date, City, Year, Place)
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	RiderID INTEGER NOT NULL REFERENCES Rider ON DELETE CASCADE ON UPDATE CASCADE,
+	HorseID INTEGER NOT NULL REFERENCES Horse ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(DateTime, Place) REFERENCES Participation,
+	PRIMARY KEY(DateTime, Place)
+);
+
+DROP TABLE IF EXISTS IndividualWithdrawal;
+CREATE TABLE IndividualWithdrawal(
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	RiderID INTEGER NOT NULL REFERENCES Rider ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(DateTime, Place) REFERENCES Participation,
+	PRIMARY KEY(DateTime, Place)
 );
 
 DROP TABLE IF EXISTS IndividualDisqualification;
 CREATE TABLE IndividualDisqualification(
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Place > 0),
-	RiderID INTEGER REFERENCES Rider NOT NULL,
-	FOREIGN KEY(Date, City, Year, Place) REFERENCES Participation,
-	PRIMARY KEY(Date, City,Year, Place)
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	RiderID INTEGER NOT NULL REFERENCES Rider ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(DateTime, Place) REFERENCES Participation,
+	PRIMARY KEY(DateTime, Place)
+);
+
+DROP TABLE IF EXISTS TeamParticipation;
+CREATE TABLE TeamParticipation(
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	TeamID INTEGER NOT NULL REFERENCES Team ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(DateTime, Place) REFERENCES Participation,
+	PRIMARY KEY(DateTime, Place)
 );
 
 drop table if exists HorseParticipation;
 CREATE TABLE HorseParticipation(
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Place > 0),
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
 	HorseID INTEGER REFERENCES Horse,
-	PRIMARY KEY (Date , City , Year , Place, HorseID),
-	FOREIGN KEY (Date , City , Year , Place) REFERENCES TeamParticipation
+	PRIMARY KEY (DateTime, Place, HorseID),
+	FOREIGN KEY (DateTime, Place) REFERENCES Participation
 );
 
 drop table if exists TeamDisqualification;
 CREATE TABLE TeamDisqualification (
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Place > 0),
-	TeamID INTEGER REFERENCES Team NOT NULL,
-	PRIMARY KEY (Date , City , Year , Place),
-	FOREIGN KEY (Date , City , Year , Place) REFERENCES Participation
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	TeamID INTEGER NOT NULL REFERENCES Team ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (DateTime, Place),
+	FOREIGN KEY (DateTime, Place) REFERENCES Participation
 );
 
 drop table if exists TeamWithdrawal;
 CREATE TABLE TeamWithdrawal(
-	Date TEXT,
-	City TEXT,
-	Year INTEGER CHECK(Year > 0),
-	Place INTEGER CHECK(Place > 0),
-	TeamID INTEGER NOT NULL,
-	PRIMARY KEY (Date , City , Year , Place),
-	FOREIGN KEY (Date , City , Year , Place) REFERENCES Participation
+	DateTime TEXT,
+	Place INTEGER CHECK (Place > 0),
+	TeamID INTEGER NOT NULL REFERENCES Team ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (DateTime, Place),
+	FOREIGN KEY (DateTime, Place) REFERENCES Participation
 );
 
 drop table if exists Season;
 CREATE TABLE Season(
-	Year INTEGER PRIMARY KEY CHECKYear > 0)
+	Year INTEGER PRIMARY KEY CHECK (Year > 0)
 );
 
 drop table if exists Event;
 CREATE TABLE Event(
 	City TEXT,
-	Year INTEGER CHECK(Year > 0),
+	Year INTEGER REFERENCES Season,
 	BeginDate TEXT NOT NULL,
 	EndDate TEXT NOT NULL,
 	PRIMARY KEY (City, Year),
-	FOREIGN KEY (City, Year) REFERENCES Season,
 	CHECK(EndDate > BeginDate)
 );
 
@@ -178,7 +185,8 @@ CREATE TABLE Class(
 drop table if exists Prize;
 CREATE TABLE Prize(
 	Place INTEGER CHECK(Place = 1 OR Place = 2 OR Place = 3),
-	ClassID INTEGER REFERENCES Class, 
+	ClassID TEXT REFERENCES Class, 
 	Value INTEGER NOT NULL CHECK(Value >=0),
 	PRIMARY KEY(ClassID, Place)
 );
+
