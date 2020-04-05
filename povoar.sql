@@ -100,7 +100,7 @@ INSERT INTO Rider VALUES (4, 'Marcus Ehning','Germany',10011403,strftime('1974-0
 INSERT INTO Rider VALUES (5, 'Scott Brash','UK',10031085,strftime('1985-12-05'),0,32,5,5,5,5,1);
 INSERT INTO Rider VALUES (6, 'Steve Guerdat','Switzerland',10011463,strftime('1982-06-10'),75000,37,1,6,6,6,3);
 INSERT INTO Rider VALUES (7, 'Janika Sprunger','Switzerland',100006483,strftime('1987-05-29'),56250,35,1,7,7,6,3);
-INSERT INTO Rider VALUES (8, 'Kevin Staut ','France',100001927,strftime('1980-11-15'),0,33, NULL,7,8,8,1);
+INSERT INTO Rider VALUES (8, 'Kevin Staut ','France',100001927,strftime('1980-11-15'),0,33, NULL,8,8,8,1);
 INSERT INTO Rider VALUES (9, 'Emanuele Gaudiano','Italy',10005736,strftime('1986-06-30'),0,0, NULL,9,9,9,2);
 INSERT INTO Rider VALUES (10, 'Christian Ahlmann','Germany',10000387,strftime('1974-12-17'),123750,40,8,10,4,10,2);
 INSERT INTO Rider VALUES (11, 'Daniel Deusser','Germany',10008871,strftime('1981-08-13'),123750,40,8,11,4,10,3);
