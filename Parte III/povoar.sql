@@ -250,16 +250,18 @@ INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-1
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-15 13:00'),2,6,6);
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-15 13:00'),3,7,7);
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-15 13:00'),4,8,10);
+INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-15 13:00'),5,9,13);
 /*HAMBURG*/
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),1,10,11);
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),2,13,18);
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),3,14,19);
 INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),4,15,20);
+INSERT INTO IndividualParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),5,16,21);
 
-/*IndividualDisqualification([DateTime, Place]->Participation, RiderID)*/
+/*IndividualDisqualification([DateTime, Place]->IndividualParticipation, RiderID)*/
 INSERT INTO IndividualDisqualification VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-15 13:00'),5,9);
 
-/*IndividualWithdrawal([DateTime, Place]->Participation, RiderID)*/
+/*IndividualWithdrawal([DateTime, Place]->IndividualParticipation, RiderID)*/
 INSERT INTO IndividualWithdrawal VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 17:00'),5,16);
 
 /*TeamParticipation([DateTime, Place]->Participation,TeamID)*/
@@ -267,6 +269,8 @@ INSERT INTO IndividualWithdrawal VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 1
 INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),1,1);
 INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),2,2);
 INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),3,3);
+INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),5,5);
+INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),4,4);
 /*MADRID*/
 INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-16 17:00'),1,4);
 INSERT INTO TeamParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-16 17:00'),2,5);
@@ -335,10 +339,10 @@ INSERT INTO HorseParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-24 17:
 INSERT INTO HorseParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-24 17:00'),3,20);
 INSERT INTO HorseParticipation VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-24 17:00'),3,21);
 
-/*TeamDisqualification([DateTime,Place]->Participation,TeamID)*/
+/*TeamDisqualification([DateTime,Place]->TeamParticipation,TeamID)*/
 INSERT INTO TeamDisqualification VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),5,5);
 
-/*TeamWithdrawal([DateTime,Place]->Participation,TeamID)*/
+/*TeamWithdrawal([DateTime,Place]->TeamParticipation,TeamID)*/
 INSERT INTO TeamWithdrawal VALUES(strftime('%Y-%m-%d %H:%M', '2020-03-05 17:00'),4,4);
 
 
