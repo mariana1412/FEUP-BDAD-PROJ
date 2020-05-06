@@ -2,7 +2,7 @@
 .headers    on
 .nullvalue  NULL
 
---organizar países por nº de cavaleiros na competição
+--Qual o nº de cavaleiros em competição por país? 
 
 SELECT COUNT(Country) AS NumberOfRiders,Country
 FROM Rider

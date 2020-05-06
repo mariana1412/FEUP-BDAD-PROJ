@@ -3,7 +3,9 @@
 .nullvalue  NULL
 
 
---estabulos onde treinam riders com pontuacao > 35
+--Em que estábulos treinam cavaleiros com pontuação superior 35?
+
 SELECT DISTINCT Stable.STID AS StableID, Stable.CName AS ClubName
 FROM Stable, Rider
-WHERE Rider.StableID=Stable.STID AND TotalPoints > 35;
+WHERE Rider.StableID=Stable.STID 
+HAVING TotalPoints > 35;

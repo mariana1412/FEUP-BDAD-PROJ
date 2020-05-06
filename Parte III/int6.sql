@@ -2,7 +2,7 @@
 .headers    on
 .nullvalue  NULL
 
---Em que provas o caveleiro X ficou classificado
+--Em que provas o cavaleiro 1 ficou classificado?
 
 SELECT DateTime, Place 
 FROM IndividualParticipation

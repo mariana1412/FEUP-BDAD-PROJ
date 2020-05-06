@@ -2,14 +2,18 @@
 .headers    on
 .nullvalue  NULL
 
---obter todas as pessoas da base de dados de uma certa nacionalidade
+--  Qual a percentagem de desistência por prova individual? (se calhar acrescentar provas de equipas)
 
-SELECT RName AS Name
-FROM Rider
-WHERE Country = "UK"
+SELECT DateTime,  (IFNULL(Withdrawal, 0)*100/Total) AS WithdrawalPercent
+FROM (
+    (SELECT DateTime, COUNT(*) AS Total
+FROM IndividualParticipation
+GROUP BY DateTime)
 
-UNION
+LEFT OUTER JOIN
 
-SELECT CName AS Name
-FROM Coach
-WHERE Country = "UK"
+(SELECT DateTime, COUNT(*) AS Withdrawal
+FROM IndividualWithdrawal
+GROUP BY DateTime)
+
+using(DateTime)); 

@@ -1,8 +1,15 @@
+
 .mode       columns
 .headers    on
 .nullvalue  NULL
 
---Ou qual é o treinador com maior taxa de sucesso , top 3 dos melhores treinadores da epoca
+-- Qual o top 3 de treinadores, isto é, treinadores com maior taxa de sucesso?
 
-SELECT CName, Country
-FROM Coach
+SELECT Name, Country, AVG(TotalPoints) as AveragePoints
+FROM(
+SELECT TotalPoints, Coach.CName AS Name, Coach.Country AS Country, Coach.CID as ID
+FROM Rider, Coach
+WHERE Rider.CoachID = Coach.CID) C
+GROUP BY ID
+ORDER BY AveragePoints DESC
+LIMIT 3;

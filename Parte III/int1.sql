@@ -2,7 +2,7 @@
 .headers    on
 .nullvalue  NULL
 
---cavaleiros (nome e nr federado)que entre duas datas específicas participaram em pelo menos uma prova ( e se sim, nº de provas) *
+--Quais os cavaleiros (nome e nº de federado) que entre duas datas específicas participaram em pelo menos uma prova (e qual o nº de provas em que participou)?
 
 SELECT RName, NoFederated
 FROM Rider
