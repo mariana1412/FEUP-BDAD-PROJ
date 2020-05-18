@@ -2,7 +2,7 @@
 .headers    on
 .nullvalue  NULL
 
--- Qual o número de participações por raça( se calhar qual as melhores raças em competição-- fazer as que realemente ganharam)
+-- Qual o número de participações por raça( se calhar qual as melhores raças em competição-- fazer as que realmente ganharam)?
 
 SELECT Breed, NumIndividual, NumTeam, (NumIndividual + NumTeam) AS Total
 FROM (

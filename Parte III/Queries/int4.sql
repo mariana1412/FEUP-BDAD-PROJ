@@ -2,9 +2,9 @@
 .headers    on
 .nullvalue  NULL
 
---  Qual a percentagem de desistência por prova individual? (se calhar acrescentar provas de equipas)
+--  Qual a percentagem de desistência por prova individual?
 
-SELECT DateTime,  (IFNULL(Withdrawal, 0)*100/Total) AS WithdrawalPercent
+SELECT DateTime AS Class,  (IFNULL(Withdrawal, 0)*100/Total) AS WithdrawalPercent
 FROM (
     (SELECT DateTime, COUNT(*) AS Total
 FROM IndividualParticipation
