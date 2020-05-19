@@ -3,7 +3,7 @@
 .headers    on
 .nullvalue  NULL
 
--- Qual o top 3 de treinadores, isto é, treinadores com maior taxa de sucesso?
+-- Qual o top 3 de treinadores, isto é, treinadores com maior taxa de sucesso?--ver com dinheiro
 
 SELECT Name, Country, AVG(TotalPoints) as AveragePoints
 FROM(

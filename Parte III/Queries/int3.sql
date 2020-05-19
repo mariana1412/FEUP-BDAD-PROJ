@@ -2,16 +2,39 @@
 .headers    on
 .nullvalue  NULL
 
--- Qual é o top 3 de cavaleiros em competição (ordenado por pontuação/dinheiro)?
-SELECT RName
-FROM Rider R1
---WHERE not exists (SELECT * FROM Rider R2 WHERE R1.TotalPoints < R2.TotalPoints)
-ORDER BY TotalPoints DESC, AmountGain DESC
-LIMIT 3;
+-- Quais os cavaleiros com as 3 ganhos mais altos ( junção do total de pontos com o dinheiro recebido)?
 
-/*--Quais os pares de cavalos que participaram juntos em provas de equipa?
+WITH RiderGains AS (
+    SELECT RName, TotalPoints, AmountGain, (TotalPoints+AmountGain) as Gains
+    FROM Rider R1)
 
-SELECT P1.DateTime AS TeamClass, P1.HorseID AS Horse1, P2.HorseID AS Horse2
-FROM HorseParticipation P1, HorseParticipation P2
-WHERE P1.DateTime = P2.DateTime AND P1.Place = P2.Place AND P1.HorseID <> P2.HorseID;
-*/
+SELECT RName, TotalPoints, AmountGain
+FROM RiderGains R1
+WHERE not exists (SELECT * FROM RiderGains R2 WHERE R1.Gains < R2.Gains)
+
+UNION
+
+SELECT RName, TotalPoints, AmountGain
+FROM RiderGains R1
+Where (
+    SELECT count(*) 
+    FROM    
+        (SELECT count(*), Gains
+        FROM RiderGains R2 
+        GROUP BY Gains) AS GroupedPoints
+    WHERE R1.Gains < GroupedPoints.Gains) = 1
+
+
+UNION
+
+SELECT RName, TotalPoints, AmountGain
+FROM RiderGains R1
+Where (
+    SELECT count(*) 
+    FROM    
+        (SELECT count(*),Gains
+        FROM RiderGains R2 
+        GROUP BY Gains) AS GroupedPoints
+    WHERE R1.Gains < GroupedPoints.Gains ) = 2
+    
+ORDER BY TotalPoints DESC;

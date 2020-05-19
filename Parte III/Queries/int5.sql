@@ -6,4 +6,5 @@
 
 SELECT DISTINCT RName
 FROM (Rider NATURAL JOIN TeamParticipation) T
-WHERE T.RiderID NOT IN (SELECT Rider.RiderID FROM Rider, IndividualParticipation WHERE Rider.RiderID = IndividualParticipation.RiderID);
+WHERE T.RiderID NOT IN (SELECT Rider.RiderID FROM Rider, IndividualParticipation 
+    WHERE Rider.RiderID = IndividualParticipation.RiderID);
