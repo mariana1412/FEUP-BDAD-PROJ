@@ -10,7 +10,11 @@ WITH RiderGains AS (
 
 SELECT RName, TotalPoints, AmountGain
 FROM RiderGains R1
-WHERE not exists (SELECT * FROM RiderGains R2 WHERE R1.Gains < R2.Gains)
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM RiderGains R2 
+    WHERE R1.Gains < R2.Gains
+)
 
 UNION
 
@@ -23,7 +27,6 @@ Where (
         FROM RiderGains R2 
         GROUP BY Gains) AS GroupedPoints
     WHERE R1.Gains < GroupedPoints.Gains) = 1
-
 
 UNION
 

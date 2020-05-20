@@ -1,1 +1,1 @@
-DROP TRIGGER IF EXISTS updateParticipationDerivatives;
+DROP TRIGGER IF EXISTS updateParticipationToDisqualification;

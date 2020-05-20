@@ -1,1 +1,1 @@
-DROP TRIGGER IF EXISTS removeRiderDerivatives;
+DROP TRIGGER IF EXISTS checkParticipation;

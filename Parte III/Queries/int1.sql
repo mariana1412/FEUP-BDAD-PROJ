@@ -5,14 +5,15 @@
 
 -- Qual o melhor cavaleiro (individualmente) em cada etapa? 
 SELECT City, RName, max(Points)
-FROM(
-SELECT City, RiderID, Points
 FROM (
-    IndividualParticipation 
-    Join Class Using(DateTime)
-    Join Participation Using(DateTime, Place))
-Where IndividualParticipation.Place = 1) AS BestRiders, Rider
-Where BestRiders.RiderID = Rider.RiderID
+    SELECT City, RiderID, Points
+    FROM (
+        IndividualParticipation 
+        JOIN Class USING(DateTime)
+        JOIN Participation USING(DateTime, Place)
+    )
+    WHERE IndividualParticipation.Place = 1) AS BestRiders, Rider
+WHERE BestRiders.RiderID = Rider.RiderID
 GROUP BY City;
 
 

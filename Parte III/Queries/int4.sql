@@ -7,13 +7,14 @@
 SELECT DateTime AS Class,  (IFNULL(Withdrawal, 0)*100/Total) AS WithdrawalPercent
 FROM (
     (SELECT DateTime, COUNT(*) AS Total
-FROM IndividualParticipation
-GROUP BY DateTime)
+    FROM IndividualParticipation
+    GROUP BY DateTime)
 
-LEFT OUTER JOIN
+    LEFT OUTER JOIN
 
-(SELECT DateTime, COUNT(*) AS Withdrawal
-FROM IndividualWithdrawal
-GROUP BY DateTime)
+    (SELECT DateTime, COUNT(*) AS Withdrawal
+    FROM IndividualWithdrawal
+    GROUP BY DateTime)
 
-using(DateTime)); 
+    USING(DateTime)
+); 

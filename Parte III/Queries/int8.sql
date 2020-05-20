@@ -6,17 +6,15 @@
 
 SELECT Country, COUNT(RName) AS NumOfWinners
 FROM (
+    SELECT RName, Country
+    FROM Rider, IndividualParticipation
+    WHERE Rider.RiderID = IndividualParticipation.RiderID AND Place <= 3
 
-SELECT RName, Country
-FROM Rider, IndividualParticipation
-WHERE Rider.RiderID = IndividualParticipation.RiderID AND Place <= 3
+    UNION ALL
 
-UNION ALL
-
-SELECT RName, Country
-FROM Rider, TeamParticipation
-WHERE Rider.TeamID = TeamParticipation.TeamID AND Place <= 3
-
+    SELECT RName, Country
+    FROM Rider, TeamParticipation
+    WHERE Rider.TeamID = TeamParticipation.TeamID AND Place <= 3
 ) C
 GROUP BY Country
 ORDER BY COUNT(RName) DESC;
