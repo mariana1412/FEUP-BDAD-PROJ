@@ -9,12 +9,3 @@ INSERT INTO IndividualWithdrawal VALUES(strftime('%Y-%m-%d %H:%M', '2020-05-20 1
 
 SELECT * FROM IndividualWithdrawal;
 
-/*
-SELECT RiderID, AmountGain, TotalPoints FROM Rider WHERE RiderID = 3;
-
-DELETE FROM IndividualParticipation
-WHERE RiderID = 3;
-
-SELECT RiderID, AmountGain, TotalPoints FROM Rider WHERE RiderID = 3;
-
-*/

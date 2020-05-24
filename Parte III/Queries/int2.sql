@@ -1,10 +1,9 @@
 .mode       columns
 .headers    on
 .nullvalue  NULL
-.width      50 5
+.width      50 10
 
--- Quais os pares de cavaleiros que participaram na mesma prova?
-
+-- Quais os pares de cavaleiros que participaram na mesma prova e a sua frequência?
 
 WITH IParticipation AS (
     SELECT RiderID, RName, DateTime

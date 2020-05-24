@@ -2,19 +2,19 @@
 .headers    on
 .nullvalue  NULL
 
--- Qual foi o país com maior número de classificações?
+-- Ordenar os países por número de classificações
 
-SELECT Country, COUNT(RName) AS NumOfWinners
+SELECT Country, COUNT(RiderID) AS NumOfWins
 FROM (
-    SELECT RName, Country
+    SELECT Rider.RiderID, Country
     FROM Rider, IndividualParticipation
     WHERE Rider.RiderID = IndividualParticipation.RiderID AND Place <= 3
 
     UNION ALL
 
-    SELECT RName, Country
+    SELECT Rider.RiderID, Country
     FROM Rider, TeamParticipation
     WHERE Rider.TeamID = TeamParticipation.TeamID AND Place <= 3
 ) C
 GROUP BY Country
-ORDER BY COUNT(RName) DESC;
+ORDER BY NumOfWins DESC;

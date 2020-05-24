@@ -2,7 +2,7 @@
 .headers    on
 .nullvalue  NULL
 
--- Qual o número de participações por raça( se calhar qual as melhores raças em competição-- fazer as que realmente ganharam)?
+-- Qual o número de participações por raça?
 
 SELECT Breed, NumIndividual, NumTeam, (NumIndividual + NumTeam) AS Total
 FROM (
@@ -10,7 +10,7 @@ FROM (
     FROM Horse, IndividualParticipation
     WHERE Horse.HorseID = IndividualParticipation.HorseID
     GROUP BY Breed
-    HAVING COUNT(*) > 0)
+    HAVING NumIndividual > 0)
 
     LEFT OUTER JOIN
 
@@ -18,28 +18,10 @@ FROM (
     FROM Horse, HorseParticipation
     WHERE Horse.HorseID = HorseParticipation.HorseID
     GROUP BY Breed
-    HAVING COUNT(*) > 0)
+    HAVING NumTeam > 0)
 
     using(Breed)
 );
-/*
-SELECT Breed, avg(T.Points) AS AveragePoints
-FROM (
-    SELECT Breed, Points
-    FROM Horse 
-        JOIN IndividualParticipation USING(HorseID)
-        JOIN Participation USING(DateTime, Place)
-
-    UNION
-
-    SELECT Breed, Points
-    FROM Horse
-        JOIN HorseParticipation USING(HorseID)
-        JOIN Participation USING(DateTime, Place)
-) AS T
-GROUP BY Breed
-ORDER BY AveragePoints DESC;
-*/
 
 
 

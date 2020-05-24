@@ -1,1 +1,1 @@
-DROP TRIGGER IF EXISTS updateParticipationToDisqualification;
+DROP TRIGGER IF EXISTS InsertTeamParticipation;

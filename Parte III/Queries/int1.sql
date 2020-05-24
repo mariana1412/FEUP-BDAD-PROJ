@@ -1,9 +1,9 @@
 .mode       columns
 .headers    on
 .nullvalue  NULL
-.width 10 30 10
+.width 10 30 12
 
--- Qual o melhor cavaleiro (individualmente) em cada etapa? 
+-- Qual o melhor cavaleiro em cada etapa, competindo individualmente? 
 SELECT City, RName, max(Points)
 FROM (
     SELECT City, RiderID, Points

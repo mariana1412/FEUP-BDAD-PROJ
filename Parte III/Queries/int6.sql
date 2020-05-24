@@ -13,7 +13,7 @@ FROM (
             JOIN IndividualParticipation USING(RiderID)
             JOIN Class USING(DateTime)
         UNION
-        SELECT RiderID, RName,City
+        SELECT DISTINCT RiderID, RName,City
         FROM Rider 
             JOIN TeamParticipation USING(TeamID) 
             JOIN Class USING(DateTime)
@@ -21,3 +21,4 @@ FROM (
     GROUP BY(RiderID)
 ) AS T
 WHERE T.NumCities = (SELECT count(*) FROM EVENT);
+
